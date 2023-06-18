@@ -9,12 +9,12 @@ import (
 	"github.com/apex/log"
 
 	longteaConfig "github.com/chungjung-d/longtea/config"
-	"github.com/chungjung-d/longtea/src/feature/pull"
+	"github.com/chungjung-d/longtea/feature/pull"
 
 	"github.com/spf13/cobra"
 )
 
-var imageName string
+var pullImageName string
 
 // pullCmd represents the pull command
 var pullCmd = &cobra.Command{
@@ -22,13 +22,13 @@ var pullCmd = &cobra.Command{
 	Short: "Pull the image on hub",
 	Long:  `Pull the image on hub`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if imageName == "" {
-			log.Fatal("image is required")
+		if pullImageName == "" {
+			log.Fatal("pullImage is required")
 		}
 
 		imageDir := longteaConfig.GetImageDir()
 
-		_, err := pull.PullImage(imageDir, imageName)
+		_, err := pull.PullImage(imageDir, pullImageName)
 		if err != nil {
 			log.Fatal(fmt.Sprintf("Failed to pull image. Error received: %s", err.Error()))
 		}
@@ -38,6 +38,6 @@ var pullCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(pullCmd)
 
-	pullCmd.Flags().StringVarP(&imageName, "image", "i", "", "DockerImage Name to pull")
-	pullCmd.MarkFlagRequired("image")
+	pullCmd.Flags().StringVarP(&pullImageName, "pullImageName", "i", "", "DockerImage Name to pull")
+	pullCmd.MarkFlagRequired("pullImage")
 }

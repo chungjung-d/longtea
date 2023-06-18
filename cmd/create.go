@@ -4,9 +4,15 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/apex/log"
+	longteaConfig "github.com/chungjung-d/longtea/config"
+	"github.com/chungjung-d/longtea/feature/create"
 	"github.com/spf13/cobra"
+)
+
+var (
+	createImageName     string
+	createContainerName string
 )
 
 // createCmd represents the create command
@@ -15,20 +21,25 @@ var createCmd = &cobra.Command{
 	Short: "create the container with image",
 	Long:  `create the container with image`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
+
+		if createImageName == "" {
+			log.Fatal("image is required")
+		}
+
+		if createContainerName == "" {
+			createContainerName = createImageName
+		}
+
+		imageDir := longteaConfig.GetImageDir()
+		containerDir := longteaConfig.GetContainerDir()
+		create.CreateContainer(imageDir, containerDir, createImageName, createContainerName)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(createCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// createCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	createCmd.Flags().StringVarP(&createImageName, "image", "i", "", "ImageName for create container")
+	createCmd.Flags().StringVarP(&createContainerName, "name", "n", "", "ContainerName")
+	createCmd.MarkFlagRequired("createImageName")
 }

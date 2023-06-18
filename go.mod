@@ -5,10 +5,13 @@ go 1.20
 require (
 	github.com/apex/log v1.9.0
 	github.com/containers/image/v5 v5.25.0
+	github.com/opencontainers/umoci v0.4.7
+	github.com/simonz05/util v0.0.0-20170616082423-66cff7904715
 	github.com/spf13/cobra v1.7.0
 )
 
 require (
+	github.com/AdamKorcz/go-fuzz-headers v0.0.0-20210312213058-32f4d319f0d2 // indirect
 	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
@@ -16,7 +19,9 @@ require (
 	github.com/containers/libtrust v0.0.0-20230121012942-c1716e8a8d01 // indirect
 	github.com/containers/ocicrypt v1.1.7 // indirect
 	github.com/containers/storage v1.46.1 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/cyberphone/json-canonicalization v0.0.0-20220623050100-57a0ce2678a7 // indirect
+	github.com/cyphar/filepath-securejoin v0.2.3 // indirect
 	github.com/docker/distribution v2.8.1+incompatible // indirect
 	github.com/docker/docker v24.0.2+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.7.0 // indirect
@@ -59,6 +64,8 @@ require (
 	github.com/proglottis/gpgme v0.1.3 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
+	github.com/rootless-containers/proto v0.1.0 // indirect
+	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sigstore/fulcio v1.2.0 // indirect
 	github.com/sigstore/rekor v1.1.0 // indirect
 	github.com/sigstore/sigstore v1.6.0 // indirect
@@ -69,6 +76,8 @@ require (
 	github.com/theupdateframework/go-tuf v0.5.2 // indirect
 	github.com/titanous/rocacheck v0.0.0-20171023193734-afe73141d399 // indirect
 	github.com/ulikunitz/xz v0.5.11 // indirect
+	github.com/urfave/cli v1.22.12 // indirect
+	github.com/vbatts/go-mtree v0.5.0 // indirect
 	github.com/vbatts/tar-split v0.11.3 // indirect
 	github.com/vbauerster/mpb/v8 v8.3.0 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect

@@ -5,7 +5,8 @@ package cmd
 
 import (
 	"fmt"
-	"log"
+
+	"github.com/apex/log"
 
 	longteaConfig "github.com/chungjung-d/longtea/config"
 	"github.com/chungjung-d/longtea/src/feature/pull"

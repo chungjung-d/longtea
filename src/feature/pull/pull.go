@@ -3,14 +3,17 @@ package pull
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
-	"github.com/containers/image/copy"
-	"github.com/containers/image/signature"
-	"github.com/containers/image/transports"
-	"github.com/containers/image/types"
+	"github.com/apex/log"
+
+	"github.com/containers/image/v5/copy"
+	_ "github.com/containers/image/v5/docker"
+	_ "github.com/containers/image/v5/oci/layout"
+	"github.com/containers/image/v5/signature"
+	"github.com/containers/image/v5/transports"
+	"github.com/containers/image/v5/types"
 )
 
 func PullImage(imageDir string, imageName string) ([]byte, error) {
@@ -33,6 +36,7 @@ func PullImage(imageDir string, imageName string) ([]byte, error) {
 }
 
 func ParseImageName(imgName string, transportType string) (types.ImageReference, error) {
+	fmt.Println(transportType)
 	transport := transports.Get(transportType)
 	if transport == nil {
 		log.Fatal("Failed to get image transport type.")

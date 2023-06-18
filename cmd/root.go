@@ -6,6 +6,7 @@ package cmd
 import (
 	"os"
 
+	longteaConfig "github.com/chungjung-d/longtea/config"
 	"github.com/spf13/cobra"
 )
 
@@ -17,6 +18,10 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
+
+	os.MkdirAll(longteaConfig.GetContainerDir(), os.ModePerm)
+	os.MkdirAll(longteaConfig.GetImageDir(), os.ModePerm)
+
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)

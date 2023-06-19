@@ -2,19 +2,26 @@ package pull
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/apex/log"
 
-	longteaImage "github.com/chungjung-d/longtea/src/core/image"
+	longteaImage "github.com/chungjung-d/longtea/core/image"
 
 	"github.com/containers/image/v5/copy"
 	_ "github.com/containers/image/v5/docker"
 	_ "github.com/containers/image/v5/oci/layout"
 )
 
+// TODO validate the exsit images
 func PullImage(imageDir string, imageName string) ([]byte, error) {
 	os.Chdir(imageDir)
+
+	name, tag := longteaImage.ParseImageName(imageName)
+
+	imageName = fmt.Sprintf("%s:%s", name, tag)
+
 	ctx := context.Background()
 	policyContext, err := longteaImage.GetImagePolicy()
 	if err != nil {

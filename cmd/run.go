@@ -1,35 +1,64 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"strings"
 
+	longteaConfig "github.com/chungjung-d/longtea/config"
+	"github.com/chungjung-d/longtea/feature/run"
 	"github.com/spf13/cobra"
 )
+
+var runContainerName string
+var runContainerImageName string
 
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "run the new container",
-	Long: `run the new container`,
+	Long:  `run the new container`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run called")
+
+		ctx := context.Background()
+
+		containerDir := longteaConfig.GetContainerDir()
+		imagerDir := longteaConfig.GetImageDir()
+		containerDirPath := fmt.Sprintf("%s/%s", containerDir, runContainerName)
+		imageDirPath := fmt.Sprintf("%s/%s", imagerDir, runContainerImageName)
+
+		ctx = context.WithValue(ctx, longteaConfig.ContainerDirPath, containerDirPath)
+		ctx = context.WithValue(ctx, longteaConfig.ImageDirPath, imageDirPath)
+
+		run.RunContainer(ctx)
+	},
+
+	PreRunE: func(cmd *cobra.Command, args []string) error {
+
+		if runContainerImageName == "" {
+
+			return fmt.Errorf("required flag: -i, --image <image name>")
+		}
+
+		if runContainerName == "" {
+
+			parts := strings.Split(runContainerImageName, ":")
+			imageName := parts[0]
+			runContainerName = imageName
+
+		}
+
+		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(runCmd)
 
-	// Here you will define your flags and configuration settings.
+	runCmd.Flags().StringVarP(&runContainerImageName, "image", "i", "", "ImageName for create container")
+	runCmd.Flags().StringVarP(&runContainerName, "name", "n", "", "Container name to start")
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// runCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// runCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

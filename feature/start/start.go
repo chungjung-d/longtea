@@ -28,7 +28,7 @@ func StartContainer(ctx context.Context) {
 		os.Exit(1)
 	}
 
-	//나중에 DB연결 해서 컨테이너 정보 저장
+	fmt.Println("Process ID is:", cmd.Process.Pid)
 
 	cmd.Wait()
 

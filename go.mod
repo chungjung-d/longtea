@@ -8,6 +8,7 @@ require (
 	github.com/opencontainers/umoci v0.4.7
 	github.com/simonz05/util v0.0.0-20170616082423-66cff7904715
 	github.com/spf13/cobra v1.7.0
+	golang.org/x/sys v0.9.0
 )
 
 require (
@@ -87,7 +88,6 @@ require (
 	golang.org/x/exp v0.0.0-20230321023759-10a507213a29 // indirect
 	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/sync v0.3.0 // indirect
-	golang.org/x/sys v0.9.0 // indirect
 	golang.org/x/term v0.9.0 // indirect
 	golang.org/x/text v0.10.0 // indirect
 	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4 // indirect

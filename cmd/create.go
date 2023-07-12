@@ -4,7 +4,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/apex/log"
+	"fmt"
+
 	longteaConfig "github.com/chungjung-d/longtea/config"
 	"github.com/chungjung-d/longtea/feature/create"
 	"github.com/spf13/cobra"
@@ -22,20 +23,23 @@ var createCmd = &cobra.Command{
 	Long:  `create the container with image`,
 	Run: func(cmd *cobra.Command, args []string) {
 
+		imageDir := longteaConfig.GetImageDir()
+		containerDir := longteaConfig.GetContainerDir()
+		create.CreateContainer(imageDir, containerDir, createImageName, createContainerName)
+	},
+
+	PreRunE: func(cmd *cobra.Command, args []string) error {
+
 		if createImageName == "" {
-			log.Fatal("image is required")
+			return fmt.Errorf("required flag: -i, --image <image name>")
 		}
 
 		if createContainerName == "" {
 			createContainerName = createImageName
 		}
 
-		imageDir := longteaConfig.GetImageDir()
-		containerDir := longteaConfig.GetContainerDir()
-		create.CreateContainer(imageDir, containerDir, createImageName, createContainerName)
+		return nil
 	},
-
-	
 }
 
 func init() {

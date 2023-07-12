@@ -7,6 +7,7 @@ import (
 
 	"github.com/apex/log"
 
+	longteaConfig "github.com/chungjung-d/longtea/config"
 	longteaImage "github.com/chungjung-d/longtea/core/image"
 
 	"github.com/containers/image/v5/copy"
@@ -15,14 +16,19 @@ import (
 )
 
 // TODO validate the exsit images
-func PullImage(imageDir string, imageName string) ([]byte, error) {
+func PullImage(ctx context.Context) ([]byte, error) {
+
+	imageName := ctx.Value(longteaConfig.PullImageName).(string)
+
+	imageDir := longteaConfig.GetImageDir()
+
 	os.Chdir(imageDir)
 
 	name, tag := longteaImage.ParseImageName(imageName)
 
 	imageName = fmt.Sprintf("%s:%s", name, tag)
 
-	ctx := context.Background()
+	context := context.Background()
 	policyContext, err := longteaImage.GetImagePolicy()
 	if err != nil {
 		log.Fatal("Failed to get policy context")
@@ -35,6 +41,6 @@ func PullImage(imageDir string, imageName string) ([]byte, error) {
 	if err != nil {
 		log.Fatal("Failed to set destination name")
 	}
-	return copy.Image(ctx, policyContext, destRef, srcRef, &copy.Options{})
+	return copy.Image(context, policyContext, destRef, srcRef, &copy.Options{})
 
 }

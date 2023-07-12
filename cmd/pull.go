@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/apex/log"
@@ -23,9 +24,11 @@ var pullCmd = &cobra.Command{
 	Long:  `Pull the image on hub`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		imageDir := longteaConfig.GetImageDir()
+		ctx := context.Background()
 
-		_, err := pull.PullImage(imageDir, pullImageName)
+		ctx = context.WithValue(ctx, longteaConfig.PullImageName, pullImageName)
+
+		_, err := pull.PullImage(ctx)
 		if err != nil {
 			log.Fatal(fmt.Sprintf("Failed to pull image. Error received: %s", err.Error()))
 		}

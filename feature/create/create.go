@@ -12,7 +12,7 @@ import (
 func CreateContainer(imageDir string, containerDir string, imageName string, containerName string) {
 	imageNamePart, imageTagPart := longteaImage.ParseImageName(imageName)
 
-	containerExist := longteaContainer.ValidateExistContainer(containerDir, containerName)
+	containerExist := longteaContainer.ValidateExistContainer(containerName)
 	if containerExist {
 		log.Fatal("Container already exist")
 	}

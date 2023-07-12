@@ -3,10 +3,16 @@ package container
 import (
 	"os"
 
+	longteaConfig "github.com/chungjung-d/longtea/config"
+	
+
 	"github.com/apex/log"
 )
 
-func GetContainerList(containerDir string) []string {
+func GetContainerList() []string {
+
+	containerDir := longteaConfig.GetContainerDir()
+
 	entries, err := os.ReadDir(containerDir)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -22,8 +28,8 @@ func GetContainerList(containerDir string) []string {
 	return containerList
 }
 
-func ValidateExistContainer(containerDir string, containerName string) bool {
-	containerList := GetContainerList(containerDir)
+func ValidateExistContainer(containerName string) bool {
+	containerList := GetContainerList()
 
 	for _, container := range containerList {
 		if container == containerName {

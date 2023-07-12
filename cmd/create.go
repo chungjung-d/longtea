@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"context"
 	"fmt"
 
 	longteaConfig "github.com/chungjung-d/longtea/config"
@@ -23,9 +24,12 @@ var createCmd = &cobra.Command{
 	Long:  `create the container with image`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		imageDir := longteaConfig.GetImageDir()
-		containerDir := longteaConfig.GetContainerDir()
-		create.CreateContainer(imageDir, containerDir, createImageName, createContainerName)
+		ctx := context.Background()
+
+		ctx = context.WithValue(ctx, longteaConfig.CreateContainerName, createImageName)
+		ctx = context.WithValue(ctx, longteaConfig.CreateContainerOriginImageName, createContainerName)
+
+		create.CreateContainer(ctx)
 	},
 
 	PreRunE: func(cmd *cobra.Command, args []string) error {

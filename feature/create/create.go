@@ -22,6 +22,8 @@ func CreateContainer(ctx context.Context) {
 
 	imageNamePart, imageTagPart := longteaImage.ParseImageName(imageName)
 
+	fmt.Println(containerName)
+
 	containerExist := longteaContainer.ValidateExistContainer(containerName)
 	if containerExist {
 		log.Fatal("Container already exist")

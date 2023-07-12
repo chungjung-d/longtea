@@ -26,8 +26,8 @@ var createCmd = &cobra.Command{
 
 		ctx := context.Background()
 
-		ctx = context.WithValue(ctx, longteaConfig.CreateContainerName, createImageName)
-		ctx = context.WithValue(ctx, longteaConfig.CreateContainerOriginImageName, createContainerName)
+		ctx = context.WithValue(ctx, longteaConfig.CreateContainerName, createContainerName)
+		ctx = context.WithValue(ctx, longteaConfig.CreateContainerOriginImageName, createImageName)
 
 		create.CreateContainer(ctx)
 	},

@@ -12,7 +12,7 @@ import (
 )
 
 func GetImageReference(imgName string, transportType string) (types.ImageReference, error) {
-	fmt.Println(transportType)
+
 	transport := transports.Get(transportType)
 	if transport == nil {
 		log.Fatal("Failed to get image transport type.")

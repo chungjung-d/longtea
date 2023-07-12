@@ -10,3 +10,8 @@ var Image string = "images"
 
 var RemoveContainerName ctxKey = "removeContainerName"
 var RemoveImageName ctxKey = "removeImageName"
+
+var CreateContainerName ctxKey = "createContainerName"
+var CreateContainerOriginImageName ctxKey = "createContainerOriginImageName"
+
+var PullImageName ctxKey = "pullImageName"

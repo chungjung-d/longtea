@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"syscall"
 
 	longteaConfig "github.com/chungjung-d/longtea/config"
+	"golang.org/x/sys/unix"
 )
 
 func StartContainer(ctx context.Context) {
@@ -15,8 +15,8 @@ func StartContainer(ctx context.Context) {
 	containerDirPath := ctx.Value(longteaConfig.ContainerDirPath).(string)
 
 	cmd := exec.Command("longteac", "create", "-c", containerDirPath)
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Cloneflags: syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWIPC,
+	cmd.SysProcAttr = &unix.SysProcAttr{
+		Cloneflags: unix.CLONE_NEWPID | unix.CLONE_NEWNS | unix.CLONE_NEWIPC,
 	}
 
 	cmd.Stdin = os.Stdin

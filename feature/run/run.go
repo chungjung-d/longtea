@@ -6,7 +6,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	"syscall"
+
+	"golang.org/x/sys/unix"
 
 	"github.com/apex/log"
 
@@ -45,8 +46,8 @@ func RunContainer(ctx context.Context) {
 	}
 
 	cmd := exec.Command("longteac", "create", "-c", containerDirPath)
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Cloneflags: syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWIPC,
+	cmd.SysProcAttr = &unix.SysProcAttr{
+		Cloneflags: unix.CLONE_NEWPID | unix.CLONE_NEWNS | unix.CLONE_NEWIPC,
 	}
 
 	cmd.Stdin = os.Stdin

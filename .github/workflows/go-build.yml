@@ -26,13 +26,13 @@ jobs:
 
       - name: Build
         run: |
-          go build -o lontea_${GITHUB_REF#refs/tags/}
+          go build -o longtea_${GITHUB_REF#refs/tags/}
 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.LONGTEA_GH }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -43,9 +43,9 @@ jobs:
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.LONGTEA_GH }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./lontea_${GITHUB_REF#refs/tags/} # 빌드한 파일의 위치를 지정합니다.
-          asset_name: lontea_${GITHUB_REF#refs/tags/}
+          asset_path: ./longtea_${GITHUB_REF#refs/tags/} # 빌드한 파일의 위치를 지정합니다.
+          asset_name: longtea_${GITHUB_REF#refs/tags/}
           asset_content_type: application/octet-stream

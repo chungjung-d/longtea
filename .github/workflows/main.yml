@@ -1,0 +1,46 @@
+name: Go CI with Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go 1.20.5
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.20.5
+
+    - name: Build
+      run: |
+        go build -o lontea_${GITHUB_REF#refs/tags/}  
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./lontea_${GITHUB_REF#refs/tags/}  # 빌드한 파일의 위치를 지정합니다.
+        asset_name: lontea_${GITHUB_REF#refs/tags/}
+        asset_content_type: application/octet-stream

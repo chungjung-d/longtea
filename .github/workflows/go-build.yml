@@ -28,33 +28,37 @@ jobs:
         run: |
           go build -o longtea_${GITHUB_REF#refs/tags/}
 
-      - name: Check if file exists
-        id: check_file
-        run: |
-          if [ -f "longtea_${GITHUB_REF#refs/tags/}" ]; then
-            echo "::set-output name=exists::true"  # 파일이 존재하는 경우 'true'로 출력 설정
-          else
-            echo "::set-output name=exists::false"  # 파일이 존재하지 않는 경우 'false'로 출력 설정
-          fi
+      # - name: Check if file exists
+      #   id: check_file
+      #   run: |
+      #     if [ -f "longtea_${GITHUB_REF#refs/tags/}" ]; then
+      #       echo "::set-output name=exists::true"  # 파일이 존재하는 경우 'true'로 출력 설정
+      #     else
+      #       echo "::set-output name=exists::false"  # 파일이 존재하지 않는 경우 'false'로 출력 설정
+      #     fi
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1 # Updated to latest version
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.LONGTEA_GH }}
+          tag: ${{ github.ref_name }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          tag_name: ${{ env.tag }}
+          files: |
+            longtea_${GITHUB_REF#refs/tags/}
+      #   run: gh release create "$tag" \
+      #     --repo="$GITHUB_REPOSITORY" \
+      #     --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+      #     --generate-notes
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1 # Updated to latest version
-        env:
-          GITHUB_TOKEN: ${{ secrets.LONGTEA_GH }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./longtea_${GITHUB_REF#refs/tags/}
-          asset_name: longtea_${GITHUB_REF#refs/tags/}
-          asset_content_type: application/octet-stream
+      # - name: Upload Release Asset
+      #   id: upload-release-asset
+      #   uses: actions/upload-release-asset@v1 # Updated to latest version
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.LONGTEA_GH }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./longtea_${GITHUB_REF#refs/tags/}
+      #     asset_name: longtea_${GITHUB_REF#refs/tags/}
+      #     asset_content_type: application/octet-stream

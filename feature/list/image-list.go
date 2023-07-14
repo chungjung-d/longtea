@@ -11,6 +11,7 @@ func ListImages() {
 	imageList := longteaImage.GetImageList()
 
 	for _, image := range imageList {
+
 		fmt.Println(image)
 	}
 

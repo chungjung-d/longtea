@@ -6,7 +6,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	longteaConfig "github.com/chungjung-d/longtea/config"
 	"github.com/chungjung-d/longtea/feature/run"
@@ -45,10 +44,13 @@ var runCmd = &cobra.Command{
 
 		if runContainerName == "" {
 
-			parts := strings.Split(runContainerImageName, ":")
-			imageName := parts[0]
-			runContainerName = imageName
+			runContainerName = runContainerImageName
 
+		}
+
+		containerName, containerTags := splitContinaerName(runContainerName)
+		if containerTags != "" {
+			runContainerName = fmt.Sprintf("%s_%s", containerName, containerTags)
 		}
 
 		return nil

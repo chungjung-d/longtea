@@ -21,6 +21,9 @@ func CreateContainer(ctx context.Context) {
 	containerDir := longteaConfig.GetContainerDir()
 
 	imageNamePart, imageTagPart := longteaImage.ParseImageName(imageName)
+	if imageTagPart == "" {
+		imageTagPart = "latest"
+	}
 
 	fmt.Println(containerName)
 

@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"os"
+	"strings"
 
 	longteaConfig "github.com/chungjung-d/longtea/config"
 	"github.com/spf13/cobra"
@@ -30,4 +31,12 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func splitContinaerName(name string) (string, string) {
+	split := strings.Split(name, ":")
+	if len(split) != 2 {
+		return split[0], ""
+	}
+	return split[0], split[1]
 }

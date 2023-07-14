@@ -35,11 +35,16 @@ var createCmd = &cobra.Command{
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 
 		if createImageName == "" {
-			return fmt.Errorf("required flag: -i, --image <image name>")
+			return fmt.Errorf("required flag: -i, --image <image name>:<image tag>")
 		}
 
 		if createContainerName == "" {
 			createContainerName = createImageName
+		}
+
+		containerName, containerTags := splitContinaerName(createContainerName)
+		if containerTags != "" {
+			createContainerName = fmt.Sprintf("%s_%s", containerName, containerTags)
 		}
 
 		return nil

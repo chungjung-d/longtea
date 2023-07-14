@@ -36,6 +36,9 @@ func RunContainer(ctx context.Context) {
 
 	imageName := strings.Split(ImageDirPath, "/")[len(strings.Split(ImageDirPath, "/"))-1]
 	imageNamePart, imageTagPart := longteaImage.ParseImageName(imageName)
+	if imageTagPart == "" {
+		imageTagPart = "latest"
+	}
 
 	containerName := strings.Split(containerDirPath, "/")[len(strings.Split(containerDirPath, "/"))-1]
 

@@ -24,9 +24,12 @@ func PullImage(ctx context.Context) ([]byte, error) {
 
 	os.Chdir(imageDir)
 
-	name, tag := longteaImage.ParseImageName(imageName)
+	imageNamePart, imageTagPart := longteaImage.ParseImageName(imageName)
+	if imageTagPart == "" {
+		imageTagPart = "latest"
+	}
 
-	imageName = fmt.Sprintf("%s:%s", name, tag)
+	imageName = fmt.Sprintf("%s:%s", imageNamePart, imageTagPart)
 
 	context := context.Background()
 	policyContext, err := longteaImage.GetImagePolicy()
@@ -37,10 +40,14 @@ func PullImage(ctx context.Context) ([]byte, error) {
 	if err != nil {
 		log.Fatal("Invalid image name")
 	}
+
 	destRef, err := longteaImage.GetImageReference(imageName, "oci")
 	if err != nil {
 		log.Fatal("Failed to set destination name")
 	}
-	return copy.Image(context, policyContext, destRef, srcRef, &copy.Options{})
+
+	copy.Image(context, policyContext, destRef, srcRef, &copy.Options{})
+
+	return nil, nil
 
 }

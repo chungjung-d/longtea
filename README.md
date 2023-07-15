@@ -1,4 +1,4 @@
-# Longtea
+# Longtea - Implemnt own container system
 
 ![image](https://github.com/chungjung-d/longtea/assets/63407866/27745785-fb47-4a4a-8646-116db37e0699)
 
